@@ -1,0 +1,36 @@
+@(paroles: List[Parole], addForm: Form[Parole])
+
+@import helper._
+
+@main("Admin") {
+
+    <h1>Paroles</h1>
+
+    <ul>
+        @paroles.map { parole =>
+            <li>
+                @parole.publishDateFormatted<br />
+                <strong>@parole.title</strong> - @parole.quote
+
+                @form(routes.Admin.delete(parole.publishDateFormatted)) {
+                    <input type="submit" value="Delete">
+                }
+            </li>
+        }
+    </ul>
+
+    <h2>Ajouter une parole</h2>
+
+    @form(routes.Admin.add) {
+
+        @inputText(addForm("title"))
+        @inputText(addForm("comment"))
+        @inputText(addForm("quote"))
+        @inputText(addForm("author"))
+        @inputText(addForm("source"))
+        @inputText(addForm("publishDate"))
+
+        <input type="submit" value="Ajouter">
+
+    }
+}
