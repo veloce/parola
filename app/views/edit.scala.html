@@ -8,8 +8,8 @@
     @form(routes.Admin.update(parole.publishDateFormatted)) {
 
         @inputText(editForm("title"))
-        @inputText(editForm("comment"))
-        @inputText(editForm("quote"))
+        @textarea(editForm("comment"))
+        @textarea(editForm("quote"))
         @inputText(editForm("author"))
         @inputText(editForm("source"))
         @inputText(editForm("publishDate"))
