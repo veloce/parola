@@ -7,12 +7,12 @@
 
     @form(routes.Admin.update(parole.publishDateFormatted)) {
 
-        @inputText(editForm("publishDate"), 'readonly -> "readonly")
         @inputText(editForm("title"))
         @inputText(editForm("comment"))
         @inputText(editForm("quote"))
         @inputText(editForm("author"))
         @inputText(editForm("source"))
+        @inputText(editForm("publishDate"))
 
         <input type="submit" value="Sauver">
     }

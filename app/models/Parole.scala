@@ -83,16 +83,17 @@ object Parole {
         """
           UPDATE parole
           SET title={title}, quote={quote}, comment={comment},
-          author={author}, source={source}
+          author={author}, source={source}, publish_date={publish_date}
           WHERE publish_date={date};
         """
       ).on(
-        "date"    -> date,
-        "title"   -> parole.title,
-        "quote"   -> parole.quote,
-        "comment" -> parole.comment,
-        "author"  -> parole.author,
-        "source"  -> parole.source
+        "date"         -> date,
+        "title"        -> parole.title,
+        "quote"        -> parole.quote,
+        "comment"      -> parole.comment,
+        "author"       -> parole.author,
+        "source"       -> parole.source,
+        "publish_date" -> parole.publishDate
       ).executeUpdate()
     }
   }
