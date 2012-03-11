@@ -8,7 +8,8 @@ GET     /                           controllers.Site.index
 # Admin
 GET     /admin/                     controllers.Admin.index
 POST    /admin/add                  controllers.Admin.add
-POST    /admin/:date/edit           controllers.Admin.edit(date)
+GET     /admin/:date/edit           controllers.Admin.edit(date)
+POST    /admin/:date/update         controllers.Admin.update(date)
 POST    /admin/:date/delete         controllers.Admin.delete(date)
 
 # Map static resources from the /public folder to the /assets URL path

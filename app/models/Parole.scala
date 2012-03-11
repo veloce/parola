@@ -52,6 +52,11 @@ object Parole {
     SQL("SELECT * FROM parole").as(parole *)
   }
 
+  def find(date: String): Parole = DB.withConnection { implicit c =>
+    SQL("SELECT * FROM parole WHERE publish_date = {publish_date}").on(
+      "publish_date" -> date).as(parole.single)
+  }
+
   def create(parole: Parole) {
     DB.withConnection { implicit c =>
       SQL(
@@ -72,19 +77,19 @@ object Parole {
     }
   }
 
-  def edit(date: String, parole: Parole) {
+  def update(date: String, parole: Parole) {
     DB.withConnection { implicit c =>
       SQL(
         """
           UPDATE parole
-          SET title={title}, parole={quote}, comment={comment},
+          SET title={title}, quote={quote}, comment={comment},
           author={author}, source={source}
           WHERE publish_date={date};
         """
       ).on(
         "date"    -> date,
         "title"   -> parole.title,
-        "parole"  -> parole.quote,
+        "quote"   -> parole.quote,
         "comment" -> parole.comment,
         "author"  -> parole.author,
         "source"  -> parole.source

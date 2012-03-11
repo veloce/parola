@@ -1,0 +1,19 @@
+@(parole: Parole, editForm: Form[Parole])
+@import helper._
+
+@main("Admin") {
+
+    <h2>Editer parole du @parole.publishDateFormatted</h2>
+
+    @form(routes.Admin.update(parole.publishDateFormatted)) {
+
+        @inputText(editForm("publishDate"), 'readonly -> "readonly")
+        @inputText(editForm("title"))
+        @inputText(editForm("comment"))
+        @inputText(editForm("quote"))
+        @inputText(editForm("author"))
+        @inputText(editForm("source"))
+
+        <input type="submit" value="Sauver">
+    }
+}

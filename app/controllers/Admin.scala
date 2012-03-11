@@ -9,7 +9,7 @@ import models._
 
 object Admin extends Controller {
 
-  val addForm = Form(
+  val form = Form(
     mapping(
       "publishDate" -> date("yyyy-MM-dd"),
       "title" -> nonEmptyText,
@@ -21,11 +21,11 @@ object Admin extends Controller {
   )
   
   def index = Action {
-    Ok(views.html.index(Parole.all(), addForm))
+    Ok(views.html.index(Parole.all(), form))
   }
 
   def add = Action { implicit request =>
-    addForm.bindFromRequest.fold(
+    form.bindFromRequest.fold(
       errors => BadRequest(views.html.index(Parole.all(), errors)),
       value => {
         Parole.create(value)
@@ -34,7 +34,21 @@ object Admin extends Controller {
     )
   }
 
-  def edit(date: String) = TODO
+  def edit(date: String) = Action {
+    val parole = Parole.find(date)
+    Ok(views.html.edit(parole, form.fill(parole)))
+  }
+
+  def update(date: String) = Action { implicit request =>
+    val parole = Parole.find(date)
+    form.bindFromRequest.fold(
+      errors => BadRequest(views.html.edit(parole, errors)),
+      value => {
+        Parole.update(date, value)
+        Redirect(routes.Admin.index)
+      }
+    )
+  }
 
   def delete(date: String) = Action {
     Parole.delete(date)
