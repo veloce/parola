@@ -1,8 +1,10 @@
 package models
 
 import java.util.Date
+
 import anorm._
 import anorm.SqlParser._
+
 import play.api.db._
 import play.api.Play.current
 
@@ -45,9 +47,11 @@ object Parole {
     SQL("SELECT * FROM parole").as(parole *)
   }
 
-  def find(date: Date): Parole = DB.withConnection { implicit c =>
+  def find(date: Date): Option[Parole] = {
+    DB.withConnection { implicit c =>
     SQL("SELECT * FROM parole WHERE publish_date = {publish_date}").on(
-      "publish_date" -> date).as(parole.single)
+      "publish_date" -> date).as(Parole.parole.singleOpt)
+    }
   }
 
   def create(parole: Parole) {

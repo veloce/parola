@@ -37,19 +37,21 @@ object Admin extends Controller {
   }
 
   def edit(date: Date) = Action {
-    val parole = Parole.find(date)
-    Ok(views.html.edit(parole, form.fill(parole)))
+    Parole.find(date).map { parole =>
+      Ok(views.html.edit(parole, form.fill(parole)))
+    }.getOrElse(NotFound)
   }
 
   def update(date: Date) = Action { implicit request =>
-    val parole = Parole.find(date)
-    form.bindFromRequest.fold(
-      errors => BadRequest(views.html.edit(parole, errors)),
-      value => {
-        Parole.update(date, value)
-        Redirect(routes.Admin.index)
-      }
-    )
+    Parole.find(date).map { parole =>
+      form.bindFromRequest.fold(
+        errors => BadRequest(views.html.edit(parole, errors)),
+        value => {
+          Parole.update(date, value)
+          Redirect(routes.Admin.index)
+        }
+      )
+    }.getOrElse(NotFound)
   }
 
   def delete(date: Date) = Action {
