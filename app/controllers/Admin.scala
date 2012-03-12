@@ -1,11 +1,13 @@
 package controllers
 
+import java.util.Date
 import play.api._
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
 
 import models._
+
 
 object Admin extends Controller {
 
@@ -34,12 +36,12 @@ object Admin extends Controller {
     )
   }
 
-  def edit(date: String) = Action {
+  def edit(date: Date) = Action {
     val parole = Parole.find(date)
     Ok(views.html.edit(parole, form.fill(parole)))
   }
 
-  def update(date: String) = Action { implicit request =>
+  def update(date: Date) = Action { implicit request =>
     val parole = Parole.find(date)
     form.bindFromRequest.fold(
       errors => BadRequest(views.html.edit(parole, errors)),
@@ -50,7 +52,7 @@ object Admin extends Controller {
     )
   }
 
-  def delete(date: String) = Action {
+  def delete(date: Date) = Action {
     Parole.delete(date)
     Redirect(routes.Admin.index)
   }

@@ -8,9 +8,9 @@ GET     /                           controllers.Site.index
 # Admin
 GET     /admin/                     controllers.Admin.index
 POST    /admin/add                  controllers.Admin.add
-GET     /admin/:date/edit           controllers.Admin.edit(date)
-POST    /admin/:date/update         controllers.Admin.update(date)
-POST    /admin/:date/delete         controllers.Admin.delete(date)
+GET     /admin/:date/edit           controllers.Admin.edit(date: java.util.Date)
+POST    /admin/:date/update         controllers.Admin.update(date: java.util.Date)
+POST    /admin/:date/delete         controllers.Admin.delete(date: java.util.Date)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

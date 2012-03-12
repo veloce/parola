@@ -9,13 +9,13 @@
     <ul>
         @paroles.map { parole =>
             <li>
-                @parole.publishDateFormatted<br />
+                @parole.publishDate<br />
                 <strong>@parole.title</strong> - @parole.quote
 
-                @form(routes.Admin.delete(parole.publishDateFormatted)) {
+                @form(routes.Admin.delete(parole.publishDate)) {
                     <input type="submit" value="Delete">
                 }
-                <a href="@routes.Admin.edit(parole.publishDateFormatted)">Editer</a>
+                <a href="@routes.Admin.edit(parole.publishDate)">Editer</a>
             </li>
         }
     </ul>

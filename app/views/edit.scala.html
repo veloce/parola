@@ -3,9 +3,9 @@
 
 @main("Admin") {
 
-    <h2>Editer parole du @parole.publishDateFormatted</h2>
+    <h2>Editer parole du @parole.publishDate</h2>
 
-    @form(routes.Admin.update(parole.publishDateFormatted)) {
+    @form(routes.Admin.update(parole.publishDate)) {
 
         @inputText(editForm("title"))
         @textarea(editForm("comment"))

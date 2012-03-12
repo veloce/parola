@@ -19,14 +19,7 @@ case class Parole(
   author: String,
 
   source: String
-) {
-
-  def publishDateFormatted(): String = {
-    val format = new java.text.SimpleDateFormat("yyyy-MM-dd")
-    format.format(this.publishDate)
-  }
-  
-}
+)
 
 object Parole {
 
@@ -52,7 +45,7 @@ object Parole {
     SQL("SELECT * FROM parole").as(parole *)
   }
 
-  def find(date: String): Parole = DB.withConnection { implicit c =>
+  def find(date: Date): Parole = DB.withConnection { implicit c =>
     SQL("SELECT * FROM parole WHERE publish_date = {publish_date}").on(
       "publish_date" -> date).as(parole.single)
   }
@@ -77,7 +70,7 @@ object Parole {
     }
   }
 
-  def update(date: String, parole: Parole) {
+  def update(date: Date, parole: Parole) {
     DB.withConnection { implicit c =>
       SQL(
         """
@@ -98,7 +91,7 @@ object Parole {
     }
   }
 
-  def delete(date: String) {
+  def delete(date: Date) {
     DB.withConnection { implicit c =>
       SQL("DELETE FROM parole WHERE publish_date={date};").on(
         "date" -> date
