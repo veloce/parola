@@ -7,18 +7,19 @@ import java.text._
 object Binders {
 
   implicit def bindableDate = new PathBindable[Date] {
+
+    val dateFormat = new SimpleDateFormat("yyy-MM-dd")
+
     def bind(key: String, value: String) = {
       try {
-        val parser = new SimpleDateFormat("yyy-MM-dd")
-        Right(parser.parse(value))
+        Right(dateFormat.parse(value))
       } catch {
         case e: ParseException => Left("Cannot parse parameter " + key + " as jave.util.Date: " + e.getMessage)
       }
     }
 
     def unbind(key: String, value: Date): String = {
-      val format = new java.text.SimpleDateFormat("yyyy-MM-dd")
-      format.format(value)
+      dateFormat.format(value)
     }
   }
 
