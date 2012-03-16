@@ -25,14 +25,14 @@ case class Parole(
 
 object Parole {
 
-  val parole = {
+  val parser = {
     get[Date]("publish_date") ~
     get[String]("title") ~
     get[String]("comment") ~
     get[String]("quote") ~
     get[String]("author") ~
     get[String]("source") map {
-      case publish_date ~ title ~ comment ~ quote ~ author ~ source => Parole(
+      case publish_date~title~comment~quote~author~source => Parole(
         publish_date,
         title,
         comment,
@@ -44,13 +44,13 @@ object Parole {
   }
 
   def all(): List[Parole] = DB.withConnection { implicit c =>
-    SQL("SELECT * FROM parole").as(parole *)
+    SQL("SELECT * FROM parole").as(parser *)
   }
 
   def find(date: Date): Option[Parole] = {
     DB.withConnection { implicit c =>
     SQL("SELECT * FROM parole WHERE publish_date = {publish_date}").on(
-      "publish_date" -> date).as(Parole.parole.singleOpt)
+      "publish_date" -> date).as(Parole.parser.singleOpt)
     }
   }
 
