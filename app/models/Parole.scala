@@ -47,10 +47,56 @@ object Parole {
     SQL("SELECT * FROM parole").as(parser *)
   }
 
+  def allPublished(): List[Parole] = DB.withConnection { implicit c =>
+    SQL("SELECT * FROM parole WHERE publish_date <= {today}").on(
+      "today" -> new Date).as(parser *)
+  }
+
+  def allNotPublished(): List[Parole] = DB.withConnection { implicit c =>
+    SQL("SELECT * FROM parole WHERE publish_date > {today}").on(
+      "today" -> new Date).as(parser *)
+  }
+
+  def latestPublished(): Parole = DB.withConnection { implicit c =>
+    SQL(
+      """
+        SELECT * FROM parole WHERE publish_date <= {today}
+        ORDER BY publish_date DESC LIMIT 1
+      """
+      ).on("today" -> new Date).as(parser.single)
+
+  }
+
   def find(date: Date): Option[Parole] = {
     DB.withConnection { implicit c =>
     SQL("SELECT * FROM parole WHERE publish_date = {publish_date}").on(
       "publish_date" -> date).as(Parole.parser.singleOpt)
+    }
+  }
+
+  def findPublished(date: Date): Option[Parole] = {
+    DB.withConnection { implicit c =>
+      SQL(
+        """
+          SELECT * FROM parole WHERE publish_date <= {today}
+          AND publish_date = {publish_date}
+        """
+        ).on("today" -> new Date, "publish_date" -> date).as(
+          Parole.parser.singleOpt
+        )
+    }
+  }
+
+  def findNotPublished(date: Date): Option[Parole] = {
+    DB.withConnection { implicit c =>
+      SQL(
+        """
+          SELECT * FROM parole WHERE publish_date > {today}
+          AND publish_date = {publish_date}
+        """
+        ).on("today" -> new Date, "publish_date" -> date).as(
+          Parole.parser.singleOpt
+        )
     }
   }
 
@@ -102,4 +148,5 @@ object Parole {
       ).executeUpdate()
     }
   }
+
 }
